@@ -13,6 +13,8 @@ canvas {
 <script>
 
 var myGamePiece;
+var canvas_width = 480;
+var canvas_height = 270;
 
 function startGame() {
     myGamePiece = new component(30, 30, "red", 10, 120);
@@ -22,8 +24,8 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = canvas_width;
+        this.canvas.height = canvas_height;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -47,7 +49,19 @@ function component(width, height, color, x, y) {
     }
     this.newPos = function() {
         this.x += this.speedX;
-        this.y += this.speedY;        
+        this.y += this.speedY;   
+        
+        if(myGamePiece.x > canvas_width){
+            myGamePiece.x = 0;   
+        }else if(myGamePiece.x < 0){
+            myGamePiece.x = canvas_width;   
+        }
+        
+        if(myGamePiece.y > canvas_height){
+            myGamePiece.y = 0;   
+        }else if(myGamePiece.y < 0){
+            myGamePiece.y = canvas_height;   
+        }
     }    
 }
 
@@ -59,6 +73,7 @@ function updateGameArea() {
 
 function moveup() {
     myGamePiece.speedY -= 1; 
+    
 }
 
 function movedown() {
